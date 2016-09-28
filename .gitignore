@@ -17,3 +17,6 @@ config/
 
 # Config vscode
 .vscode/
+
+# Rating images
+public/imgs
