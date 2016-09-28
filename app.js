@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 const config = require('config');
 
-app.set('port', process.env.PORT);
+app.set('port', process.env.PORT || 8000);
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
 
@@ -62,7 +62,6 @@ app.post('/webhook', function (req, res) {
     res.sendStatus(200);
   };
 });
-
 
 // VERIFICATION OF CALLBACKS
 function verifyRequestSignature(req, res, buf) {
