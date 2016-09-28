@@ -1,7 +1,7 @@
 {
   "name": "better-business-bureau-messanger-bot",
-  "version": "4.0.0.",
-  "description": "Facebook messanger bot for Better Business Bureau",
+  "version": "4.0.0",
+  "description": "Facebook messanger bot for Better Business Bureau wit Wit.io",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -13,10 +13,11 @@
     "url": "https://github.com/sergeyradkov/bot4"
   },
   "author": "Sergey Radkov",
-  "license": "MIT",
+  "license": "ICT",
   "dependencies": {
     "@google/maps": "^0.1.0",
     "body-parser": "^1.15.0",
+    "config": "^1.21.0",
     "es6-promise": "^3.2.1",
     "express": "^4.13.4",
     "isomorphic-fetch": "^2.2.1",

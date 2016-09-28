@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const express = require('express');
 const app = express();
+const config = require('config');
 
 app.set('port', process.env.PORT);
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
@@ -12,8 +13,9 @@ let sessions = require('./lib/utilities/sessions');
 let fbw = require('./lib/bot/welcome');
 let bm = require('./lib/bot/botmanager');
 
-const APP_SECRET = process.env.MESSENGER_APP_SECRET;
-const VALIDATION_TOKEN = process.env.MESSENGER_VALIDATION_TOKEN;
+
+const APP_SECRET = config.get('MESSENGER_APP_SECRET');
+const VALIDATION_TOKEN = config.get('MESSENGER_VALIDATION_TOKEN');
 const PAGE_TOKEN = process.env.MESSENGER_PAGE_ACCESS_TOKEN;
 const SERVER_URL = process.env.SERVER_URL;
 
