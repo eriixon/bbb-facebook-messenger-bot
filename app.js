@@ -13,11 +13,10 @@ let sessions = require('./lib/utilities/sessions');
 let fbw = require('./lib/bot/welcome');
 let bm = require('./lib/bot/botmanager');
 
-
 const APP_SECRET = config.get('MESSENGER_APP_SECRET');
 const VALIDATION_TOKEN = config.get('MESSENGER_VALIDATION_TOKEN');
-const PAGE_TOKEN = process.env.MESSENGER_PAGE_ACCESS_TOKEN;
-const SERVER_URL = process.env.SERVER_URL;
+const PAGE_TOKEN = config.get('MESSENGER_PAGE_ACCESS_TOKEN');
+const SERVER_URL = config.get('SERVER_URL');
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_TOKEN && SERVER_URL)) {
   console.error("Missing config values"); 
