@@ -2,8 +2,8 @@
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const express = require('express');
-const app = express();
 const config = require('config');
+const app = express();
 
 app.set('port', process.env.PORT || 8000);
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
@@ -12,19 +12,24 @@ app.use(express.static('public'));
 let sessions = require('./lib/utilities/sessions');
 let fbw = require('./lib/bot/welcome');
 let bm = require('./lib/bot/botmanager');
+let pages = require('./config/pages');
 
 const APP_SECRET = config.get('MESSENGER_APP_SECRET');
 const VALIDATION_TOKEN = config.get('MESSENGER_VALIDATION_TOKEN');
 const PAGE_TOKEN = config.get('MESSENGER_PAGE_ACCESS_TOKEN');
 const SERVER_URL = config.get('SERVER_URL');
 
-if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_TOKEN && SERVER_URL)) {
-  console.error("Missing config values"); 
-  process.exit(1)
+// if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_TOKEN && SERVER_URL)) {
+//   console.error("Missing config values"); 
+//   process.exit(1)
+// };
+
+// Configuration of the bot
+for (var id in pages){
+  fbw.welcome(pages[id]);
+  console.log("id:" + id + " sent welcome")
 };
 
-// Configuration of the bot for the first visit
-fbw.welcome();
 
 // Array of sessions: one session for one user
 let currentSessions = {};
@@ -43,19 +48,19 @@ app.get('/webhook', function (req, res) {
 // FACEBOOK WEBHOOK
 app.post('/webhook', function (req, res) {
   let data = req.body;
-
   // Make sure this is a page subscription
   if (data.object == 'page') {
     data.entry.forEach(function (pageEntry) {
       let pageID = pageEntry.id;
       let senderID = pageEntry.messaging[0].sender.id;
       let sessionID = sessions.findOrCreateSession(senderID, currentSessions);
+      let session = currentSessions[sessionID];
+      session.pid = pageID;
 
       if (senderID != pageID) {
         pageEntry.messaging.forEach(messagingEvent => {
-          bm.manageEvent(messagingEvent, currentSessions[sessionID], (updatedSession) => {
-            currentSessions[sessionID] = updatedSession;            
-            if (currentSessions[sessionID].context.endSession) delete currentSessions[sessionID];
+          bm.manageEvent(messagingEvent, session, (updatedSession) => {
+            if (updatedSession.context.endSession) delete currentSessions[sessionID];
           });
       })};
     });
