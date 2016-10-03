@@ -12,7 +12,6 @@ app.use(express.static('public'));
 let sessions = require('./lib/utilities/sessions');
 let fbw = require('./lib/bot/welcome');
 let bm = require('./lib/bot/botmanager');
-let pages = require('./config/pages');
 
 const APP_SECRET = config.get('MESSENGER_APP_SECRET');
 const VALIDATION_TOKEN = config.get('MESSENGER_VALIDATION_TOKEN');
@@ -24,15 +23,8 @@ const SERVER_URL = config.get('SERVER_URL');
 //   process.exit(1)
 // };
 
-// Configuration of the bot
-for (var id in pages){
-  fbw.welcome(pages[id]);
-  console.log("id:" + id + " sent welcome")
-};
-
-
-// Array of sessions: one session for one user
-let currentSessions = {};
+let currentSessions = {};  // Array of sessions: one session for one user
+fbw.welcome();             // Configuration of the bot
 
 // SETUP WEBHOOK
 app.get('/webhook', function (req, res) {
