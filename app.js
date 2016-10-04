@@ -45,9 +45,8 @@ app.post('/webhook', function (req, res) {
     data.entry.forEach(function (pageEntry) {
       let pageID = pageEntry.id;
       let senderID = pageEntry.messaging[0].sender.id;
-      let sessionID = sessions.findOrCreateSession(senderID, currentSessions);
+      let sessionID = sessions.findOrCreateSession(senderID,pageID,currentSessions);
       let session = currentSessions[sessionID];
-      session.pid = pageID;
 
       if (senderID != pageID) {
         pageEntry.messaging.forEach(messagingEvent => {
