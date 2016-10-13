@@ -15,19 +15,19 @@ In the first visit just click "Get started" and follow tips.
 ## Technologies
 This bot works under Node JS server and JavaScript code. The index page is used for test needs.
 Also this bot uses several APIs:
-1. [BBB API](https://developer.bbb.org/) to look for information about some business in BBB data base
-2. [Messenger API](https://developers.facebook.com/products/messenger/) to send messages from bot to users thought Messenger
-3. [Google maps API](https://developers.google.com/maps/documentation/geocoding/intro) to find the name of user's location
+* [BBB API](https://developer.bbb.org/) to look for information about some business in BBB data base
+* [Messenger API](https://developers.facebook.com/products/messenger/) to send messages from bot to users thought Messenger
+* [Google maps API](https://developers.google.com/maps/documentation/geocoding/intro) to find the name of user's location
 
 Also it uses the NPM packages:
-1.   @google/maps - for Google maps API
-2.   body-parser - for Facebook verification
-3.   config - for keeping tokens and keys
-4.   es6-promise - for fetch
-5.   express - for server Node JS
-6.   isomorphic-fetch - for promises
-7.   levenshtein-edit-distance - to correct errors of input
-8.   nodemailer - for sending emails to Facebook page admins
+* @google/maps - for Google maps API
+* body-parser - for Facebook verification
+* config - for keeping tokens and keys
+*   es6-promise - for fetch
+*   express - for server Node JS
+*   isomorphic-fetch - for promises
+*   levenshtein-edit-distance - to correct errors of input
+*   nodemailer - for sending emails to Facebook page admins
 
 ## How to set up
 At the first step you need to set up an application at Facebook Developer site. Following the [walk-through](https://developers.facebook.com/docs/messenger-platform/quickstart) in more detail.
