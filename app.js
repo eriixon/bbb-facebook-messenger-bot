@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const express = require('express');
 const config = require('config');
 const app = express();
+const Datastore = require('nedb');
 
 app.set('port', process.env.PORT || 8000);
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
@@ -17,6 +18,7 @@ const APP_SECRET = config.get('MESSENGER_APP_SECRET');
 const VALIDATION_TOKEN = config.get('MESSENGER_VALIDATION_TOKEN');
 const PAGE_TOKEN = config.get('MESSENGER_PAGE_ACCESS_TOKEN');
 const SERVER_URL = config.get('SERVER_URL');
+const REGPASS = config.get('PASS');
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_TOKEN && SERVER_URL)) {
   console.error("Missing config values"); 
@@ -24,7 +26,7 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_TOKEN && SERVER_URL)) {
 };
 
 let currentSessions = {};  // Array of sessions: one session for one user
-fbw.welcome();             // Configuration of the bot
+// fbw.bigWelcome();          // Configuration of the bot
 
 // SETUP WEBHOOK
 app.get('/webhook', function (req, res) {
@@ -73,6 +75,17 @@ function verifyRequestSignature(req, res, buf) {
     if (signatureHash != expectedHash) throw new Error("Couldn't validate the request signature.");
   }
 };
+
+app.put('/setPage', function(req,res){
+  if(req.body.regpass === REGPASS) {
+    let page = {pageId: req.body.pageId, token: req.body.token, email:req.body.email};
+    var db = new Datastore({filename : 'config/pages.db'});
+    db.loadDatabase();
+    db.insert(page, err => {
+      fbw.welcome(req.body.pageId);
+      (err)? res.send(err):res.send("DONE")});
+  } else res.send("NOPASS");
+});
 
 // START SERVER
 app.listen(app.get('port'), () => console.log('Facebook bot app is running on port', app.get('port')));

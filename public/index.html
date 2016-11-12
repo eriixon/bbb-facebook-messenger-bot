@@ -1,45 +1,73 @@
 <!-- 
-
 Copyright 2016-present, Facebook, Inc. All rights reserved.
-
 This source code is licensed under the license found in the LICENSE file in the root directory of this source tree.
-
 -->
+<!DOCTYPE html>
 <html>
   <head>
     <title>BBB Bot Demo</title>
-  </head>
-  <body>
-  <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '1747793832106133',
-        xfbml      : true,
-        version    : 'v2.7'
-      });
-    };
-
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  </script>
-
-    <h1>BBB Bot Demo</h1>
-
-    <div>
-      <p>The "Message Us" plugin takes the user directly to Messenger and into a thread with your Page.</p>
-
-      <div class="fb-messengermessageus" 
-        messenger_app_id='1747793832106133'
-        page_id='1125095810910376'
-        color="blue"
-        size="large">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body ng-app='bot'>
+<div class="container">
+  <div class="row" ng-controller="RegForm">
+    <div class="col-md-10 col-xs-12">
+    <div class="panel panel-default" style="margin-top: 3%">
+      <div class="panel-heading">
+        <h1>Better Business Bureau Facebook Messenger Bot</h1>
+        <h2>Page Registration Form</h2>
+      </div>
+      <div class="panel-body" >
+        <form class="form" ng-submit="addPage(page)">
+          <div class="form-group col-md-10 col-xs-12">
+            <label for="name">Page ID </label>
+            <input placeholder="Please provide Facebook page ID" type="text" class="form-control" ng-model="page.pageId">
+            <label for="name">Page Access Token</label>
+            <input placeholder="Page Access Token from Facebook Developers" type="text" class="form-control" ng-model="page.token">
+            <label for="name">Egent email</label>
+            <input placeholder="Contact e-mail of an agent" type="text" class="form-control" ng-model="page.email">
+            <label for="name">Registration password</label>
+            <input placeholder="Security password" type="text" class="form-control" ng-model="page.regpass" required>
+            <input type="text" ng-model="page.got" style="display:none"/>
+            <button type="submit" class="btn btn-success pull-right" style="width: 100%; margin-top: 15px">ADD PAGE</button>
+          </div>
+        </form>
       </div>
     </div>
+  </div>
+  <div id="showMessage" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Message Verification</h3>
+                </div>
+                    <div class="modal-body">
+                      <h4>{{message}}</h4>
+                    <!--<h4>Thank you for your email. Your message is important  to me and I will respond as soon as possible.</h4>-->
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+        </div>
+      </div>
+  </div>
+</div>
+</div>
 
-  </body>
+<div style="display:none">
+  <div class="fb-messengermessageus" 
+   messenger_app_id='1747793832106133'
+   page_id='1125095810910376'
+   color="blue"
+   size="large">
+  </div>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script type="text/javascript" src="fb.js"></script>
+<script type="text/javascript" src="index.js"></script>
+</body>
 </html>
