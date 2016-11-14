@@ -20,9 +20,9 @@
     "config": "^1.21.0",
     "es6-promise": "^3.2.1",
     "express": "^4.13.4",
+    "firebase": "^3.6.0",
     "isomorphic-fetch": "^2.2.1",
     "levenshtein-edit-distance": "^2.0.0",
-    "nedb": "^1.8.0",
     "nodemailer": "^2.6.0",
     "parse-address": "0.0.5",
     "request": "^2.72.0"

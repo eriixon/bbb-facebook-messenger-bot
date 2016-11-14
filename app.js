@@ -13,6 +13,7 @@ app.use(express.static('public'));
 let sessions = require('./lib/utilities/sessions');
 let fbw = require('./lib/bot/welcome');
 let bm = require('./lib/bot/botmanager');
+let fbdb = require('./lib/utilities/firebase.js');
 
 const APP_SECRET = config.get('MESSENGER_APP_SECRET');
 const VALIDATION_TOKEN = config.get('MESSENGER_VALIDATION_TOKEN');
@@ -79,11 +80,8 @@ function verifyRequestSignature(req, res, buf) {
 app.put('/setPage', function(req,res){
   if(req.body.regpass === REGPASS) {
     let page = {pageId: req.body.pageId, token: req.body.token, email:req.body.email};
-    var db = new Datastore({filename : 'config/pages.db'});
-    db.loadDatabase();
-    db.insert(page, err => {
-      fbw.welcome(req.body.pageId);
-      (err)? res.send(err):res.send("DONE")});
+    fbdb.inputPageToDB(page);
+    res.send("DONE");
   } else res.send("NOPASS");
 });
 
