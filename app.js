@@ -4,7 +4,6 @@ const crypto = require('crypto');
 const express = require('express');
 const config = require('config');
 const app = express();
-const Datastore = require('nedb');
 
 app.set('port', process.env.PORT || 8000);
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
@@ -48,15 +47,16 @@ app.post('/webhook', function (req, res) {
     data.entry.forEach(function (pageEntry) {
       let pageID = pageEntry.id;
       let senderID = pageEntry.messaging[0].sender.id;
-      let sessionID = sessions.findOrCreateSession(senderID,pageID,currentSessions);
-      let session = currentSessions[sessionID];
-
-      if (senderID != pageID) {
-        pageEntry.messaging.forEach(messagingEvent => {
-          bm.manageEvent(messagingEvent, session, (updatedSession) => {
-            if (updatedSession.context.endSession) delete currentSessions[sessionID];
-          });
-      })};
+      fbdb.getToken(pageID, token =>{
+        let sessionID = sessions.findOrCreateSession(senderID,pageID,token,currentSessions);
+        let session = currentSessions[sessionID];
+        if (senderID != pageID) {
+          pageEntry.messaging.forEach(messagingEvent => {
+            bm.manageEvent(messagingEvent, session, (updatedSession) => {
+              if (updatedSession.context.endSession) delete currentSessions[sessionID];
+            });
+        })};
+      });
     });
     res.sendStatus(200);
   };
@@ -80,7 +80,7 @@ function verifyRequestSignature(req, res, buf) {
 app.put('/setPage', function(req,res){
   if(req.body.regpass === REGPASS) {
     let page = {pageId: req.body.pageId, token: req.body.token, email:req.body.email};
-    fbdb.inputPageToDB(page);
+    fbdb.inputPage(page,id=>fbw.welcome(id));
     res.send("DONE");
   } else res.send("NOPASS");
 });
