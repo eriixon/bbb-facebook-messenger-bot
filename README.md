@@ -1,4 +1,4 @@
-# Facebook Messenger Bot for Better Business Bureau
+# Facebook Messenger Bot
 ## Description.
 This bot was created under the order from Better Business Bureau to provide services of BBB to Facebook users. The main service of the bot is to help users find an appropriate business in the US. In the future this bot should be available in Canada.
 ## Project Guidelines
